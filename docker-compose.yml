@@ -1,0 +1,48 @@
+version: "3.1"
+
+services:
+    yourls-site:
+        image: yourls:1-fpm-alpine
+        restart: always
+        # ports:
+        #     - 8080:80
+        environment:
+            YOURLS_SITE: https://l.redig.me
+            YOURLS_USER_FILE: /run/secrets/yourls_admin_username
+            YOURLS_PASS_FILE: /run/secrets/yourls_admin_password
+            YOURLS_DB_HOST: yourls_mysql
+            YOURLS_DB_USER_FILE: /run/secrets/yourls_mysql_db_user
+            YOURLS_DB_PASS_FILE: /run/secrets/yourls_mysql_db_pass
+        networks:
+            - internal
+            - caddy_proxy
+
+    yourls_mysql:
+        image: mariadb:10.5
+        restart: always
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/yourls_mysql_root_pw
+            - MYSQL_DATABASE=yourls
+            - MYSQL_USER_FILE=/run/secrets/yourls_mysql_db_user
+            - MYSQL_PASSWORD_FILE=/run/secrets/yourls_mysql_db_pass
+        networks:
+            - internal
+
+secrets:
+    yourls_admin_username:
+        external: true
+    yourls_admin_password:
+        external: true
+    yourls_mysql_root_pw:
+        external: true
+    yourls_mysql_db_user:
+        external: true
+    yourls_mysql_db_pass:
+        external: true
+
+networks:
+    internal:
+    caddy_proxy:
+        external: true
