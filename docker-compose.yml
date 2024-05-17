@@ -2,7 +2,7 @@ version: "3.1"
 
 services:
     app-yourls:
-        image: yourls:1-fpm-alpine
+        image: yourls:1
         restart: always
         # ports:
         #     - 8080:80
