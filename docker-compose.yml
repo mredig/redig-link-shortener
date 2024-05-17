@@ -16,6 +16,11 @@ services:
         networks:
             - internal
             - caddy_proxy
+        secrets:
+            - yourls_admin_username
+            - yourls_admin_password
+            - yourls_mysql_db_user
+            - yourls_mysql_db_pass
 
     yourls_mysql:
         image: mariadb:10.5
@@ -29,6 +34,10 @@ services:
             - MYSQL_PASSWORD_FILE=/run/secrets/yourls_mysql_db_pass
         networks:
             - internal
+        secrets:
+            - yourls_mysql_root_pw
+            - yourls_mysql_db_user
+            - yourls_mysql_db_pass
 
 secrets:
     yourls_admin_username:
