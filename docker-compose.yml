@@ -1,7 +1,7 @@
 version: "3.1"
 
 services:
-    yourls-site:
+    app-yourls:
         image: yourls:1-fpm-alpine
         restart: always
         # ports:
@@ -10,7 +10,7 @@ services:
             YOURLS_SITE: https://l.redig.me
             YOURLS_USER_FILE: /run/secrets/yourls_admin_username
             YOURLS_PASS_FILE: /run/secrets/yourls_admin_password
-            YOURLS_DB_HOST: yourls_mysql
+            YOURLS_DB_HOST: db_yourls
             YOURLS_DB_USER_FILE: /run/secrets/yourls_mysql_db_user
             YOURLS_DB_PASS_FILE: /run/secrets/yourls_mysql_db_pass
         networks:
@@ -22,7 +22,7 @@ services:
             - yourls_mysql_db_user
             - yourls_mysql_db_pass
 
-    yourls_mysql:
+    db_yourls:
         image: mariadb:10.5
         restart: always
         volumes:
@@ -62,4 +62,4 @@ volumes:
         driver_opts:
             type: "none"
             o: "bind"
-            device: "${HOME}/.config/redig_link_shortener/yourls_db/"
+            device: "${HOME}/.config/redig_link_shortener_config/yourls_db/"
