@@ -21,7 +21,7 @@ services:
         image: mariadb:10.5
         restart: always
         volumes:
-            - db:/var/lib/mysql
+            - yourls_db:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/yourls_mysql_root_pw
             - MYSQL_DATABASE=yourls
@@ -46,3 +46,11 @@ networks:
     internal:
     caddy_proxy:
         external: true
+
+volumes:
+    yourls_db:
+        driver: local
+        driver_opts:
+            type: "none"
+            o: "bind"
+            device: "${HOME}/.config/redig_link_shortener/yourls_db/"
