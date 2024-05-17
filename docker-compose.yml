@@ -6,6 +6,8 @@ services:
         restart: always
         # ports:
         #     - 8080:80
+        depends_on:
+            - db_yourls
         environment:
             YOURLS_SITE: https://l.redig.me
             YOURLS_USER_FILE: /run/secrets/yourls_admin_username
